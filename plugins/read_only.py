@@ -43,6 +43,8 @@ def read_only(client: Client, message: Message):
             while '  ' in message_text:
                 message_text = message_text.replace('  ', ' ')
             message.edit_text(message_text)
+        except pyrogram.errors.exceptions.bad_request_400.ChatAdminRequired as e:
+            app.send_message(message.chat.id, f"Метод требует !ro прав администратора чата.")
         except Exception as e:
-            print(e)
-            return
+            raise
+        
